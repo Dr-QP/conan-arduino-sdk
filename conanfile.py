@@ -9,8 +9,7 @@ class ConanarduinosdkConan(ConanFile):
     url = "https://github.com/Dr-QP/conan-arduino-sdk"
     description = "Conan package that installs Arduino as SDK"
     settings = None
-    options = {"host_os": ["Linux", "Windows", "MacOS"],
-               "host_arch": ["x86", "x86_64"],
+    options = {"host_os": ["linux32", "linux64", "windows", "macOS"],
                "use_bundled_java": [True, False]}
     default_options = "use_bundled_java=False"
     short_paths = True
@@ -21,27 +20,23 @@ class ConanarduinosdkConan(ConanFile):
     url = "<platform specific>"
 
     def configure(self):
-        if os_info.is_linux:
-            self.options.host_os = "Linux"
-        elif os_info.is_windows:
-            self.options.host_os = "Windows"
-        elif os_info.is_macos:
-            self.options.host_os = "MacOS"
-        else:
-            raise Exception("Unsupported platform")
-
         import sys
         is_64bits = sys.maxsize > 2 ** 32
-        if is_64bits:
-            self.options.host_arch = "x86_64"
-        else:
-            self.options.host_arch = "x86"
 
         if os_info.is_linux:
             if is_64bits:
-                self.url = "https://downloads.arduino.cc/arduino-%s-linux64.tar.xz" % self.version
+                self.options.host_os = "linux64"
             else:
-                self.url = "https://downloads.arduino.cc/arduino-%s-linux32.tar.xz" % self.version
+                self.options.host_os = "linux32"
+        elif os_info.is_windows:
+            self.options.host_os = "windows"
+        elif os_info.is_macos:
+            self.options.host_os = "macOS"
+        else:
+            raise Exception("Unsupported platform")
+
+        if os_info.is_linux:
+            self.url = "https://downloads.arduino.cc/arduino-%s-%s.tar.xz" % (self.version, self.options.host_os)
             self.download_path = "arduino-%s.tar.gz" % self.version
             self.zip_folder = "arduino-%s" % self.version
             self.app_folder = "arduino"
