@@ -21,7 +21,6 @@ class ConanarduinosdkConan(ConanFile):
             self.download_path = "arduino-%s.tar.xz" % self.version
             self.zip_folder = "arduino-%s" % self.version
             self.app_folder = "arduino"
-            # self.run("tar xvfJ /tmp/arduino.tar.xz")
 
         if os_info.is_macos:
             self.url = "https://downloads.arduino.cc/arduino-%s-macosx.zip" % self.version
@@ -41,6 +40,10 @@ class ConanarduinosdkConan(ConanFile):
     def source(self):
         self.output.warn("Downloading: %s" % self.url)
         tools.download(self.url, self.download_path)
+
+    if os_info.is_linux:
+        self.run("tar xvfJ %s" % self.download_path)
+    else:
         tools.unzip(self.download_path, keep_permissions=True)
 
     def package(self):
