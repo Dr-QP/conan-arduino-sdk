@@ -22,6 +22,7 @@ class ConanarduinosdkConan(ConanFile):
             self.options.host_os = "Linux"
         elif os_info.is_windows:
             self.options.host_os = "Windows"
+            raise Exception("Windows support Not implemented yet")
         elif os_info.is_macos:
             self.options.host_os = "MacOS"
         else:
@@ -35,7 +36,10 @@ class ConanarduinosdkConan(ConanFile):
             self.options.host_arch = "x86"
 
         if os_info.is_linux:
-            self.url = "https://downloads.arduino.cc/arduino-%s-linux64.tar.xz" % self.version
+            if is_64bits:
+                self.url = "https://downloads.arduino.cc/arduino-%s-linux64.tar.xz" % self.version
+            else:
+                self.url = "https://downloads.arduino.cc/arduino-%s-linux32.tar.xz" % self.version
             self.download_path = "arduino-%s.tar.gz" % self.version
             self.zip_folder = "arduino-%s" % self.version
             self.app_folder = "arduino"
