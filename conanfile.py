@@ -23,31 +23,32 @@ class ConanarduinosdkConan(ConanFile):
         import sys
         is_64bits = sys.maxsize > 2 ** 32
 
-        if os_info.is_linux:
-            if is_64bits:
-                self.options.host_os = "linux64"
+        if self.options.host_os is None:
+            if os_info.is_linux:
+                if is_64bits:
+                    self.options.host_os = "linux64"
+                else:
+                    self.options.host_os = "linux32"
+            elif os_info.is_windows:
+                self.options.host_os = "windows"
+            elif os_info.is_macos:
+                self.options.host_os = "macOS"
             else:
-                self.options.host_os = "linux32"
-        elif os_info.is_windows:
-            self.options.host_os = "windows"
-        elif os_info.is_macos:
-            self.options.host_os = "macOS"
-        else:
-            raise Exception("Unsupported platform")
+                raise Exception("Unsupported platform")
 
-        if os_info.is_linux:
+        if self.options.host_os in ("linux64", "linux32"):
             self.url = "https://downloads.arduino.cc/arduino-%s-%s.tar.xz" % (self.version, self.options.host_os)
             self.download_path = "arduino-%s.tar.gz" % self.version
             self.zip_folder = "arduino-%s" % self.version
             self.app_folder = "arduino"
 
-        elif os_info.is_macos:
+        elif self.options.host_os == "macOS":
             self.url = "https://downloads.arduino.cc/arduino-%s-macosx.zip" % self.version
             self.download_path = "arduino-%s.zip" % self.version
             self.zip_folder = "Arduino.app"
             self.app_folder = self.zip_folder
 
-        elif os_info.is_windows:
+        elif self.options.host_os == "windows":
             self.url = "https://downloads.arduino.cc/arduino-%s-windows.zip" % self.version
             self.download_path = "arduino-%s.zip" % self.version
             self.zip_folder = "arduino-%s" % self.version
