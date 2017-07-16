@@ -1,50 +1,53 @@
 from conans import ConanFile, tools
 from conans.tools import os_info, SystemPackageTool
-
+import os
 
 class ConanarduinosdkConan(ConanFile):
     name = "conan-arduino-sdk"
-    version = "1.0.0"
+    version = "1.8.3"
     license = "Mozilla Public License, v. 2.0 http://mozilla.org/MPL/2.0/"
     url = "https://github.com/Dr-QP/conan-arduino-sdk"
     description = "Conan package that installs Arduino as SDK"
-    settings = "os", "compiler", "build_type", "arch"
-    # exports_sources = "!build/*", "!test_package/*", "!**/.DS_Store"
-    options = {
-        "arduino_version": ["1.8.3", "ANY", "none"],
-        "arduino_path": "ANY"
-    }
-    default_options = "arduino_version=none", "arduino_path=none"
+    settings = None
+    
+    app_folder = "<to be defined>"
+    zip_folder = "<to be defined>"
+    sdk_folder = "<to be defined>"
+    download_path = "<platform specific>"
+    url = "<platform specific>"
+
+    def configure(self):
+        if os_info.is_linux:
+            self.url = "https://downloads.arduino.cc/arduino-%s-linux64.tar.xz" % self.version
+            self.download_path = "arduino-%s.tar.xz" % self.version
+            self.zip_folder = "arduino-%s" % self.version
+            self.app_folder = "arduino"
+            self.sdk_folder = self.zip_folder
+            # self.run("tar xvfJ /tmp/arduino.tar.xz")
+
+        if os_info.is_macos:
+            self.url = "https://downloads.arduino.cc/arduino-%s-macosx.zip" % self.version
+            self.download_path = "arduino-%s.zip" % self.version
+            self.zip_folder = "Arduino.app"
+            self.app_folder = self.zip_folder
+            self.sdk_folder = self.app_folder
+
+
+    def system_requirements(self):
+        if os_info.is_linux:
+            installer = SystemPackageTool()
+            installer.update()
+            installer.install("openjdk-8-jre")
+            installer.install("openjdk-8-jre-headless")
+            installer.install("xz-utils")
 
     def source(self):
-        self.arduino_path = str(self.options.arduino_path)
-        if self.options.arduino_version != "none" and self.arduino_path == "none":
-            if os_info.is_linux:
-                installer = SystemPackageTool()
-                installer.install("openjdk-8-jre")
-                installer.install("openjdk-8-jre-headless")
-                installer.install("curl")
-                installer.install("xz-utils")
+        self.output.warn("Downloading: %s" % self.url)
+        tools.download(self.url, self.download_path)
+        tools.unzip(self.download_path, keep_permissions=True)
 
-                self.run("curl https://downloads.arduino.cc/arduino-%s-linux64.tar.xz -o /tmp/arduino.tar.xz" %
-                         self.options.arduino_version)
-                self.run("tar xvfJ /tmp/arduino.tar.xz")
-
-                self.output.warn("Downloading: %s" % url)
-                tools.download(url, dest_file)
-                tools.unzip(dest_file)
-
-                self.arduino_path = "/tmp/arduino-%s/" % self.options.arduino_version
-                self.run("%s/install.sh" % self.arduino_path)
-
-
-    # def package(self):
-    #     self.copy("*.h", dst="include", src="src")
-    #     self.copy("*.lib", dst="lib", keep_path=False)
-    #     self.copy("*.dll", dst="bin", keep_path=False)
-    #     self.copy("*.dylib*", dst="lib", keep_path=False)
-    #     self.copy("*.so", dst="lib", keep_path=False)
-    #     self.copy("*.a", dst="lib", keep_path=False)
+    def package(self):
+        self.copy("*", dst=self.app_folder, src=self.zip_folder, keep_path=True)
 
     def package_info(self):
-        self.cpp_info.libs = ["hello"]
+        self.env_info.CONAN_ARDUINO_SDK_PATH = str(self.package_folder)
