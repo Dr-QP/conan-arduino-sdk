@@ -41,10 +41,10 @@ class ConanarduinosdkConan(ConanFile):
         self.output.warn("Downloading: %s" % self.url)
         tools.download(self.url, self.download_path)
 
-    if os_info.is_linux:
-        self.run("tar xvfJ %s" % self.download_path)
-    else:
-        tools.unzip(self.download_path, keep_permissions=True)
+        if os_info.is_linux:
+            self.run("tar xvfJ %s" % self.download_path)
+        else:
+            tools.unzip(self.download_path, keep_permissions=True)
 
     def package(self):
         self.copy("*", dst=self.app_folder, src=self.zip_folder, keep_path=True)
