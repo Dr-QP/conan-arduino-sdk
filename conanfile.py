@@ -9,7 +9,9 @@ class ConanarduinosdkConan(ConanFile):
     url = "https://github.com/Dr-QP/conan-arduino-sdk"
     description = "Conan package that installs Arduino as SDK"
     settings = None
-    
+    options = {"host_os": ["Linux", "Windows", "MacOS"],
+               "host_arch": ["x86", "x86_64"]}
+
     app_folder = "<platform specific>"
     zip_folder = "<platform specific>"
     download_path = "<platform specific>"
@@ -17,8 +19,24 @@ class ConanarduinosdkConan(ConanFile):
 
     def configure(self):
         if os_info.is_linux:
+            self.options.host_os = "Linux"
+        elif os_info.is_windows:
+            self.options.host_os = "Windows"
+        elif os_info.is_macos:
+            self.options.host_os = "MacOS"
+        else:
+            raise Exception("Unsupported platform")
+
+        import sys
+        is_64bits = sys.maxsize > 2 ** 32
+        if is_64bits:
+            self.options.host_arch = "x86_64"
+        else:
+            self.options.host_arch = "x86"
+
+        if os_info.is_linux:
             self.url = "https://downloads.arduino.cc/arduino-%s-linux64.tar.xz" % self.version
-            self.download_path = "arduino-%s.tar.xz" % self.version
+            self.download_path = "arduino-%s.tar.gz" % self.version
             self.zip_folder = "arduino-%s" % self.version
             self.app_folder = "arduino"
 
@@ -39,8 +57,10 @@ class ConanarduinosdkConan(ConanFile):
 
     def source(self):
         self.output.warn("Downloading: %s" % self.url)
+        import shutil
+        shutil.copy2("/Users/antonmatosov/Downloads/arduino-1.8.3-linux64.tar.xz", self.download_path)
         tools.download(self.url, self.download_path)
-
+        
         if os_info.is_linux:
             self.run("tar xvfJ %s" % self.download_path)
         else:
