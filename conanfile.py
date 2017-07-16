@@ -61,8 +61,8 @@ class ConanarduinosdkConan(ConanFile):
 
     def source(self):
         self.output.warn("Downloading: %s" % self.url)
-        import shutil
-        shutil.copy2("/Users/antonmatosov/Downloads/arduino-1.8.3-linux64.tar.xz", self.download_path)
+        # import shutil
+        # shutil.copy2("/Users/antonmatosov/Downloads/arduino-1.8.3-linux64.tar.xz", self.download_path)
         tools.download(self.url, self.download_path)
         
         if os_info.is_linux:
