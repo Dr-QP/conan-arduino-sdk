@@ -23,7 +23,7 @@ class ConanarduinosdkConan(ConanFile):
         import sys
         is_64bits = sys.maxsize > 2 ** 32
 
-        if self.options.host_os is None:
+        if self.options.host_os == None:
             if os_info.is_linux:
                 if is_64bits:
                     self.options.host_os = "linux64"
