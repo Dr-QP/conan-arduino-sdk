@@ -54,14 +54,16 @@ class ConanarduinosdkConan(ConanFile):
             self.zip_folder = "arduino-%s" % self.version
             self.app_folder = "arduino"
 
+    def build_requirements(self):
+        if os_info.is_linux:
+            installer = SystemPackageTool()
+            installer.install("xz-utils", update=True)
 
     def system_requirements(self):
         if os_info.is_linux:
             installer = SystemPackageTool()
-            installer.update()
             # installer.install("openjdk-8-jre")
             # installer.install("openjdk-8-jre-headless")
-            installer.install("xz-utils")
 
     def source(self):
         self.output.warn("Downloading: %s" % self.url)
