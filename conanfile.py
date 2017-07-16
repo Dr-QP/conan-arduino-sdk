@@ -10,7 +10,9 @@ class ConanarduinosdkConan(ConanFile):
     description = "Conan package that installs Arduino as SDK"
     settings = None
     options = {"host_os": ["Linux", "Windows", "MacOS"],
-               "host_arch": ["x86", "x86_64"]}
+               "host_arch": ["x86", "x86_64"],
+               "use_bundled_java": [True, False]}
+    default_options = "use_bundled_java=False"
 
     app_folder = "<platform specific>"
     zip_folder = "<platform specific>"
@@ -22,7 +24,6 @@ class ConanarduinosdkConan(ConanFile):
             self.options.host_os = "Linux"
         elif os_info.is_windows:
             self.options.host_os = "Windows"
-            raise Exception("Windows support Not implemented yet")
         elif os_info.is_macos:
             self.options.host_os = "MacOS"
         else:
@@ -44,19 +45,25 @@ class ConanarduinosdkConan(ConanFile):
             self.zip_folder = "arduino-%s" % self.version
             self.app_folder = "arduino"
 
-        if os_info.is_macos:
+        elif os_info.is_macos:
             self.url = "https://downloads.arduino.cc/arduino-%s-macosx.zip" % self.version
             self.download_path = "arduino-%s.zip" % self.version
             self.zip_folder = "Arduino.app"
             self.app_folder = self.zip_folder
+
+        elif os_info.is_windows:
+            self.url = "https://downloads.arduino.cc/arduino-%s-windows.zip" % self.version
+            self.download_path = "arduino-%s.zip" % self.version
+            self.zip_folder = "arduino-%s" % self.version
+            self.app_folder = "arduino"
 
 
     def system_requirements(self):
         if os_info.is_linux:
             installer = SystemPackageTool()
             installer.update()
-            installer.install("openjdk-8-jre")
-            installer.install("openjdk-8-jre-headless")
+            # installer.install("openjdk-8-jre")
+            # installer.install("openjdk-8-jre-headless")
             installer.install("xz-utils")
 
     def source(self):
@@ -75,3 +82,6 @@ class ConanarduinosdkConan(ConanFile):
 
     def package_info(self):
         self.env_info.CONAN_ARDUINO_SDK_PATH = str(self.package_folder)
+        if self.options.use_bundled_java:
+            self.env_info.JAVA_HOME = os.path.join(self.package_folder, "java")
+            self.env_info.PATH.append(os.path.join(self.env_info.JAVA_HOME, "bin"))
