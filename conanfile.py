@@ -13,6 +13,7 @@ class ConanarduinosdkConan(ConanFile):
                "host_arch": ["x86", "x86_64"],
                "use_bundled_java": [True, False]}
     default_options = "use_bundled_java=False"
+    short_paths = True
 
     app_folder = "<platform specific>"
     zip_folder = "<platform specific>"
