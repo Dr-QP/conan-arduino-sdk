@@ -10,9 +10,8 @@ class ConanarduinosdkConan(ConanFile):
     description = "Conan package that installs Arduino as SDK"
     settings = None
     
-    app_folder = "<to be defined>"
-    zip_folder = "<to be defined>"
-    sdk_folder = "<to be defined>"
+    app_folder = "<platform specific>"
+    zip_folder = "<platform specific>"
     download_path = "<platform specific>"
     url = "<platform specific>"
 
@@ -22,7 +21,6 @@ class ConanarduinosdkConan(ConanFile):
             self.download_path = "arduino-%s.tar.xz" % self.version
             self.zip_folder = "arduino-%s" % self.version
             self.app_folder = "arduino"
-            self.sdk_folder = self.zip_folder
             # self.run("tar xvfJ /tmp/arduino.tar.xz")
 
         if os_info.is_macos:
@@ -30,7 +28,6 @@ class ConanarduinosdkConan(ConanFile):
             self.download_path = "arduino-%s.zip" % self.version
             self.zip_folder = "Arduino.app"
             self.app_folder = self.zip_folder
-            self.sdk_folder = self.app_folder
 
 
     def system_requirements(self):
