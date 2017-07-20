@@ -5,10 +5,8 @@ environment:
     PYTHON_VERSION: "2.7.8"
     PYTHON_ARCH: "32"
 
-    CONAN_REFERENCE: "conan-arduino-sdk/1.8.3"
-    CONAN_UPLOAD: "https://api.bintray.com/conan/anton-matosov/general"
+    CONAN_REFERENCE: "arduino-sdk/1.8.3"
     CONAN_USERNAME: "anton-matosov"
-    CONAN_LOGIN_USERNAME: "anton-matosov"
     CONAN_CHANNEL: "testing"
     CONAN_STABLE_BRANCH_PATTERN: "release/*"
     VS150COMNTOOLS: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\"

@@ -2,9 +2,7 @@
 env:
    global:
      - CONAN_REFERENCE: "conan-arduino-sdk/1.8.3"
-     - CONAN_UPLOAD: "https://api.bintray.com/conan/anton-matosov/general"
      - CONAN_USERNAME: "anton-matosov"
-     - CONAN_LOGIN_USERNAME: "anton-matosov"
      - CONAN_CHANNEL: "testing"
      - CONAN_STABLE_BRANCH_PATTERN: "release/*"
      
