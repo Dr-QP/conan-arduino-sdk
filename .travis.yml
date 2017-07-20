@@ -1,7 +1,6 @@
 
 env:
    global:
-     - CONAN_REFERENCE: "conan-arduino-sdk/1.8.3"
      - CONAN_USERNAME: "anton-matosov"
      - CONAN_CHANNEL: "testing"
      - CONAN_STABLE_BRANCH_PATTERN: "release/*"
