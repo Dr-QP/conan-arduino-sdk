@@ -5,7 +5,6 @@ environment:
     PYTHON_VERSION: "2.7.8"
     PYTHON_ARCH: "32"
 
-    CONAN_REFERENCE: "arduino-sdk/1.8.3"
     CONAN_USERNAME: "anton-matosov"
     CONAN_CHANNEL: "testing"
     CONAN_STABLE_BRANCH_PATTERN: "release/*"
@@ -15,17 +14,18 @@ environment:
         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
           CONAN_VISUAL_VERSIONS: 14
 
-init:
-  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+# init:
+#   - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
-on_finish:
-  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+# on_finish:
+#   - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 install:
-  - tree "C:\MinGW"
   - set PATH=%PATH%;%PYTHON%/Scripts/
-  - pip.exe install git+https://github.com/anton-matosov/conan.git --upgrade
-  - pip.exe install git+https://github.com/conan-io/conan-package-tools.git
+  - pip.exe install conan --upgrade
+  - pip.exe install conan_package_tools
+  # - pip.exe install git+https://github.com/anton-matosov/conan.git --upgrade
+  # - pip.exe install git+https://github.com/conan-io/conan-package-tools.git
   - conan user # It creates the conan data directory
 
 test_script:

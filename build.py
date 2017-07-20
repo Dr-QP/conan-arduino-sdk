@@ -3,7 +3,9 @@ from conans.tools import os_info
 import copy
 
 if __name__ == "__main__":
-    builder = ConanMultiPackager(args="--build missing")
+    builder = ConanMultiPackager(
+        args="--build missing",
+        reference="arduino-sdk/1.8.3")
     builder.add(options={
         "ardiono-sdk:use_bundled_java": False
     })
