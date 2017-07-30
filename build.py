@@ -6,13 +6,7 @@ if __name__ == "__main__":
     builder = ConanMultiPackager(
         args="--build missing",
         reference="arduino-sdk/1.8.3")
-    builder.add(options={
-        "ardiono-sdk:use_bundled_java": False
-    })
-    if os_info.is_linux or os_info.is_windows:
-        builder.add(options={
-            "ardiono-sdk:use_bundled_java": True
-        })
+    builder.add()
 
     if os_info.is_linux:
         filtered_builds = []
