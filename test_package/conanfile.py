@@ -1,15 +1,16 @@
 from conans import ConanFile, CMake
 import os
 
-
-channel = os.getenv("CONAN_CHANNEL", "testing")
-username = os.getenv("CONAN_USERNAME", "anton-matosov")
-
-
-class ConanarduinosdkTestConan(ConanFile):
+class ConanArduinoSDKTestConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
-    requires = "arduino-sdk/1.8.3@%s/%s" % (username, channel)
-
 
     def test(self):
+        arduino_path = os.getenv("CONAN_ARDUINO_SDK_PATH")
+        if not arduino_path:
+            raise Exception(
+                "CONAN_ARDUINO_SDK_PATH environment variable is not set")
+        if not os.path.exists(arduino_path):
+            raise Exception(
+                "CONAN_ARDUINO_SDK_PATH folder doesn't exist: %s" % arduino_path)
+                
         self.output.success("Done")
