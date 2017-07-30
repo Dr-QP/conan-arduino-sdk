@@ -3,7 +3,7 @@ from conans.tools import os_info, SystemPackageTool
 import os
 
 
-class ConanarduinosdkConan(ConanFile):
+class ConanArduinoSDKConan(ConanFile):
     name = "arduino-sdk"
     version = "1.8.3"
     license = "Mozilla Public License, v. 2.0 http://mozilla.org/MPL/2.0/"
