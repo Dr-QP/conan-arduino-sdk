@@ -1,9 +1,9 @@
 
 env:
-   global:
-     - CONAN_USERNAME: "anton-matosov"
-     - CONAN_CHANNEL: "testing"
-     - CONAN_STABLE_BRANCH_PATTERN: "release/*"
+  global:
+    - CONAN_USERNAME: "conan"
+    - CONAN_CHANNEL: "testing"
+    - CONAN_STABLE_BRANCH_PATTERN: "release/*"
      
 linux: &linux
    os: linux
