@@ -73,4 +73,5 @@ class ConanArduinoSDKConan(ConanFile):
                   src=self.zip_folder, keep_path=True)
 
     def package_info(self):
-        self.env_info.CONAN_ARDUINO_SDK_PATH = str(self.package_folder)
+        self.env_info.CONAN_ARDUINO_SDK_PATH = os.path.join(
+            str(self.package_folder), self.app_folder)
