@@ -4,22 +4,10 @@ set -e
 set -x
 
 if [[ "$(uname -s)" == 'Darwin' ]]; then
-    brew update || brew update
-    brew outdated pyenv || brew upgrade pyenv
-    brew install pyenv-virtualenv
-    brew install cmake || true
-
-    if which pyenv > /dev/null; then
-        eval "$(pyenv init -)"
-    fi
-
-    pyenv install 2.7.10
-    pyenv virtualenv 2.7.10 conan
-    pyenv rehash
-    pyenv activate conan
+    brew update
+    brew install conan python3
+else
+    pip install conan conan_package_tools --upgrade
 fi
-
-pip install git+https://github.com/anton-matosov/conan.git@develop --upgrade
-pip install conan_package_tools
 
 conan user

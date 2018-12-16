@@ -3,8 +3,7 @@ from conans.tools import os_info
 import copy
 
 if __name__ == "__main__":
-    builder = ConanMultiPackager(reference="arduino-sdk/1.8.8")
-    builder.build_policy = "missing"
+    builder = ConanMultiPackager(build_policy = "missing")
     builder.add()
 
     if os_info.is_linux:
