@@ -21,6 +21,7 @@ environment:
 #   - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 install:
+  - echo CONAN_VISUAL_VERSIONS=%CONAN_VISUAL_VERSIONS%
   - set PATH=%PATH%;%PYTHON%/Scripts/
   - pip.exe install conan conan_package_tools
   - conan user # It creates the conan data directory
