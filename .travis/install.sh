@@ -5,9 +5,9 @@ set -x
 
 if [[ "$(uname -s)" == 'Darwin' ]]; then
     brew update
-    brew install python3
+    brew upgrade python
 fi
 
-pip install conan conan_package_tools --upgrade
+pip3 install conan conan_package_tools --upgrade
 
 conan user
