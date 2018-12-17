@@ -18,7 +18,7 @@ osx: &osx
 matrix:
    include:
       - <<: *linux
-        env: CONAN_GCC_VERSIONS=6.3 CONAN_DOCKER_IMAGE=lasote/conangcc63
+        env: CONAN_DOCKER_IMAGE=conanio/gcc54
 
       - <<: *osx
         osx_image: xcode8.3
