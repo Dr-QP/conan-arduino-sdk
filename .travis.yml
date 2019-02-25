@@ -27,6 +27,7 @@ matrix:
         osx_image: xcode8.3
 
       - <<: *windows
+        env: CONAN_VISUAL_VERSIONS: 15
 
 install:
   - ./.travis/install.sh
