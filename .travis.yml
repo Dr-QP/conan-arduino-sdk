@@ -17,7 +17,7 @@ osx: &osx
    language: generic
 windows: &windows
    os: windows
-   language: shell
+   language: cpp
 matrix:
    include:
       - <<: *linux
