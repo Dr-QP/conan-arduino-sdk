@@ -30,6 +30,7 @@ matrix:
         env: CONAN_VISUAL_VERSIONS=15
 
 install:
+  - choco install python3
   - ./.travis/install.sh
 
 script:
