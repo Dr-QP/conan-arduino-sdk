@@ -5,7 +5,7 @@ import os
 
 class ConanArduinoSDKConan(ConanFile):
     name = "arduino-sdk"
-    version = "1.8.8"
+    version = "1.8.11"
     license = "Mozilla Public License, v. 2.0 http://mozilla.org/MPL/2.0/"
     url = "https://github.com/Dr-QP/conan-arduino-sdk"
     description = "Conan package that installs Arduino as SDK"
