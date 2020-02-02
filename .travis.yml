@@ -18,7 +18,7 @@ osx: &osx
 matrix:
    include:
       - <<: *linux
-        env: CONAN_DOCKER_IMAGE=conanio/gcc73
+        env: CONAN_GCC_VERSIONS=7
 
       - <<: *osx
 
