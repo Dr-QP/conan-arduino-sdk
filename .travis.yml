@@ -18,10 +18,9 @@ osx: &osx
 matrix:
    include:
       - <<: *linux
-        env: CONAN_DOCKER_IMAGE=conanio/gcc54
+        env: CONAN_DOCKER_IMAGE=conanio/gcc73
 
       - <<: *osx
-        osx_image: xcode8.3
 
 install:
   - ./.travis/install.sh
