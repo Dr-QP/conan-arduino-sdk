@@ -1,0 +1,5 @@
+*.py text eol=lf
+*.cpp text eol=lf
+*.txt text eol=lf
+*.md text eol=lf
+.git* text eol=lf
