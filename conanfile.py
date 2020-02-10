@@ -102,10 +102,17 @@ compiler.version={self.gcc_version}
         else:
             tools.unzip(self.download_path, keep_permissions=True)
 
+    def package_id(self):
+        # SDK doesn't depend on board
+        del self.info.settings.os.board
+        # or compiler, it supplies one
+        del self.info.settings.compiler
+
     def package(self):
         self.copy("hardware/*", src=self.sdk_source_folder, keep_path=True)
         self.copy("libraries/*", src=self.sdk_source_folder, keep_path=True)
         self.copy("examples/*", src=self.sdk_source_folder, keep_path=True)
+        self.copy("lib/version.txt", src=self.sdk_source_folder, keep_path=True)
 
     def package_info(self):
         full_sdk_path = str(self.package_folder)
