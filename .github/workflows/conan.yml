@@ -12,7 +12,6 @@ on:
       - '**.md'
   release:
     types:
-      - created
       - published
 
 jobs:
@@ -24,6 +23,8 @@ jobs:
     env:
         CONAN_USERNAME: "conan"
         CONAN_CHANNEL: "testing"
+        CONAN_LOGIN_USERNAME: ${{ secrets.CONAN_LOGIN_USERNAME }}
+        CONAN_PASSWORD: ${{ secrets.CONAN_PASSWORD }}
         CONAN_STABLE_BRANCH_PATTERN: "v\\d+\\.\\d+\\.\\d+"
     steps:
       - uses: actions/checkout@v2
@@ -41,9 +42,14 @@ jobs:
         run: python build.py
 
       - name: Build and publish
-        if: github.event_name == 'push' || github.event_name == 'release'
+        if: github.event_name == 'push'
         env:
           CONAN_UPLOAD: https://api.bintray.com/conan/anton-matosov/general
-          CONAN_LOGIN_USERNAME: ${{ secrets.CONAN_LOGIN_USERNAME }}
-          CONAN_PASSWORD: ${{ secrets.CONAN_PASSWORD }}
+        run: python build.py
+
+      - name: Build and publish stable
+        if: github.event_name == 'release'
+        env:
+          CONAN_CHANNEL: "stable"
+          CONAN_UPLOAD: https://api.bintray.com/conan/anton-matosov/general
         run: python build.py
