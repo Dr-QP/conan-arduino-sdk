@@ -11,7 +11,7 @@ class ConanArduinoSDKConan(ConanFile):
 
     license = "Mozilla Public License, v. 2.0 http://mozilla.org/MPL/2.0/"
     url = "https://github.com/Dr-QP/conan-arduino-sdk"
-    description = "Conan package that installs Arduino as SDK"
+    description = "Arduino SDK as package"
 
     settings = "os", "compiler", "arch"
     options = {"host_os": ["linux32", "linux64", "windows", "macOS"]}
@@ -22,11 +22,9 @@ class ConanArduinoSDKConan(ConanFile):
     download_path = "<platform specific>"
     url = "<platform specific>"
 
-
     def configure(self):
         import sys
         is_64bits = sys.maxsize > 2 ** 32
-
 
         if str(self.settings.os) != "Arduino":
             self.raise_settings_error(f"OS '{self.settings.os}' is not supported, only `Arduino` supported.")
