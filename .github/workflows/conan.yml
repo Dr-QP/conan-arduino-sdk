@@ -10,6 +10,10 @@ on:
   pull_request:
     paths-ignore:
       - '**.md'
+  create:
+  repository_dispatch:
+    types: [release]
+
 
 
 jobs:
@@ -38,7 +42,7 @@ jobs:
         run: python build.py
 
       - name: Build and publish
-        if: github.event_name == 'push'
+        if: github.event_name == 'push' || (github.event_name == 'create' && startsWith(github.ref, 'refs/tags/v'))
         env:
           CONAN_UPLOAD: https://api.bintray.com/conan/anton-matosov/general
           CONAN_LOGIN_USERNAME: ${{ secrets.CONAN_LOGIN_USERNAME }}
