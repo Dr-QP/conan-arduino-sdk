@@ -10,11 +10,10 @@ on:
   pull_request:
     paths-ignore:
       - '**.md'
-  create:
-  repository_dispatch:
-    types: [release]
-
-
+  release:
+    types:
+      - created
+      - published
 
 jobs:
   build:
@@ -25,7 +24,7 @@ jobs:
     env:
         CONAN_USERNAME: "conan"
         CONAN_CHANNEL: "testing"
-        CONAN_STABLE_BRANCH_PATTERN: "\\d+\\.\\d+\\.\\d+"
+        CONAN_STABLE_BRANCH_PATTERN: "v\\d+\\.\\d+\\.\\d+"
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v1
@@ -42,7 +41,7 @@ jobs:
         run: python build.py
 
       - name: Build and publish
-        if: github.event_name == 'push' || (github.event_name == 'create' && startsWith(github.ref, 'refs/tags/v'))
+        if: github.event_name == 'push' || github.event_name == 'release'
         env:
           CONAN_UPLOAD: https://api.bintray.com/conan/anton-matosov/general
           CONAN_LOGIN_USERNAME: ${{ secrets.CONAN_LOGIN_USERNAME }}
